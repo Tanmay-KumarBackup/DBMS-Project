@@ -1,13 +1,15 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CustomerSection extends JFrame{
     private JButton modifyButton;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextArea textArea1;
+    private JTextField C_ID;
+    private JTextField CName;
+    private JTextField phNo;
+    private JTextArea Addr;
     private JButton insertValueButton;
     private JComboBox comboBox1;
     private JTextField textField4;
@@ -21,6 +23,12 @@ public class CustomerSection extends JFrame{
         setSize(400,500);
 
 
+        insertValueButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
     }
 
 }
