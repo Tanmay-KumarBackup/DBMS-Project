@@ -1,6 +1,8 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.math.BigInteger;
 public class CustomerSection extends JFrame {
@@ -108,6 +110,14 @@ public class CustomerSection extends JFrame {
         fetchDataButton.addActionListener(actionEvent -> {
             String fVal = fValue.getText();
             fetch(comboBox1.getSelectedIndex(),fVal);
+        });
+
+        UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
+        backToMainMenuButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> {
+                Main_Page Main_Page = new Main_Page();
+                Main_Page.setVisible(true);
+            });
         });
     }
 }

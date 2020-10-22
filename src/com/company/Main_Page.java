@@ -21,19 +21,10 @@ public class Main_Page extends JFrame{
         setSize(750, 300);
 
         UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
-        customerSectionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        Main_Page.setVisible(false);
-                        CustomerSection customerSection = new CustomerSection();
-                        customerSection.setVisible(true);
+        customerSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
 
-                    }
-                });
-            }
-        });
+            CustomerSection customerSection = new CustomerSection();
+            customerSection.setVisible(true);
+        }));
     }
 }
