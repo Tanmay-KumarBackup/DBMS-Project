@@ -1,35 +1,16 @@
 package com.company;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import javax.swing.*;
-
 import java.sql.*;
-class MysqlCon{
-    public MysqlCon(String sql) {
-
-    }
-
-    public static void mysqlCon(String args){
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/Project_DBMS","root","0310");
-            //here Project_DBMS is database name, root is username and 0310 is the password
-            System.out.println("Connected database successfully...\n");
-            System.out.println("Inserting records into the table...\n");
-            Statement stmt;
-            Connection conn=null;
-            assert false;
-            stmt = conn.createStatement();
-
-            stmt.executeUpdate(args);
-            System.out.println("Inserted records into the table...\n\n");
-        }catch(Exception se){ System.out.println(se);}
-
-    }
-}
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 
-public class CustomerSection extends JFrame{
+
+public class CustomerSection extends JFrame {
+
     private JButton modifyButton;
     private JTextField C_ID;
     private JTextField CName;
@@ -41,23 +22,62 @@ public class CustomerSection extends JFrame{
     private JButton fetchDataButton;
     private JPanel CustomerRoot;
 
-    public CustomerSection()
-    {
+
+
+    public static int insertCandidate(int customer_ID, String name, int Phno,
+                                      String address) {
+        // for insert a new candidate
+        ResultSet rs = null;
+        int candidateId = 0;
+
+        String sql = "INSERT INTO Customer_details(customer_ID , name , PhNo , Address) "
+                + "VALUES(?,?,?,?)";
+
+        try (Connection conn = MySQLJDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+
+            // set parameters for statement
+            pstmt.setString(1, String.valueOf(customer_ID));
+            pstmt.setString(2, name);
+            pstmt.setString(3, String.valueOf(Phno));
+            pstmt.setString(4, address);
+
+            int rowAffected = pstmt.executeUpdate();
+            if (rowAffected == 1) {
+                // get candidate id
+                rs = pstmt.getGeneratedKeys();
+                if (rs.next())
+                    candidateId = rs.getInt(1);
+
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        return candidateId;
+    }
+
+    public CustomerSection() {
         add(CustomerRoot);
         setTitle("Customer Section");
-        setSize(750,300);
+        setSize(750, 300);
 
 
         insertValueButton.addActionListener(actionEvent -> {
 
-            String name=CName.getText();
-            String addr=Addr.getText();
-            int phone=Integer.parseInt(phNo.getText());
-            int c_id=Integer.parseInt(C_ID.getText());
-            String sql= "INSERT INTO Customer_details(customer_ID , name , PhNo , Address) " +"VALUES ( "+c_id+","+CName+" , "+phone+" , "+Addr+" );";
-            MysqlCon.mysqlCon(sql);
+            String name = CName.getText();
+            String addr = Addr.getText();
+            int phone = Integer.parseInt(phNo.getText());
+            int c_id = Integer.parseInt(C_ID.getText());
+            int id = insertCandidate(c_id, name, phone, addr);
 
-
+            System.out.printf("A new candidate with id %d has been inserted.%n",id);
         });
     }
 
