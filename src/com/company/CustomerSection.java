@@ -1,7 +1,5 @@
 package com.company;
 
-import javafx.util.converter.BigIntegerStringConverter;
-
 import javax.swing.*;
 import java.sql.*;
 import java.math.BigInteger;
@@ -19,8 +17,8 @@ public class CustomerSection extends JFrame {
     private JPanel CustomerRoot;
     private JButton backToMainMenuButton;
 
-    public static int insertCandidate(int customer_ID, String name, BigInteger Phno,
-                                      String address) {
+    public static int insertCustomer(int customer_ID, String name, BigInteger Phno,
+                                     String address) {
         // for insert a new candidate
         ResultSet rs = null;
         int candidateId = 0;
@@ -97,7 +95,7 @@ public class CustomerSection extends JFrame {
             String addr = Addr.getText();
             BigInteger phone = new BigInteger(phNo.getText());
             int c_id = Integer.parseInt(C_ID.getText());
-            int id = insertCandidate(c_id, name, phone, addr);
+            int id = insertCustomer(c_id, name, phone, addr);
 
             System.out.printf("A new candidate with id %d has been inserted.%n",id);
         });

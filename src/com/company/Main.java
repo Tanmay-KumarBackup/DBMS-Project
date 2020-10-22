@@ -9,8 +9,9 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                CustomerSection CustomerSection = new CustomerSection();
-                CustomerSection.setVisible(true);
+                Main_Page MainPage= new Main_Page();
+                MainPage.setVisible(true);
+
             }
         });
 
