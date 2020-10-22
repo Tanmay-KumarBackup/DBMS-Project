@@ -109,7 +109,6 @@ public class Billing_Section extends JFrame{
         comboBox1.addItem("Date");
         comboBox1.addItem("Vehicle ID");
 
-
         fetchDataButton.addActionListener(actionEvent -> {
             String fVal = fValue.getText();
             fetch(comboBox1.getSelectedIndex(),fVal);
