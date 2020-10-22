@@ -26,5 +26,12 @@ public class Main_Page extends JFrame{
             CustomerSection customerSection = new CustomerSection();
             customerSection.setVisible(true);
         }));
+        UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
+        billingSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+
+            Billing_Section Billing_Section = new Billing_Section();
+            Billing_Section.setVisible(true);
+        }));
+
     }
 }

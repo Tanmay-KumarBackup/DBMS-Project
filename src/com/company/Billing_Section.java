@@ -2,8 +2,10 @@ package com.company;
 
 import javax.swing.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-public class Billing_Section {
+public class Billing_Section extends JFrame{
     private JPanel CustomerRoot;
     private JTextField C_ID;
     private JTextField BillDate;
@@ -16,9 +18,9 @@ public class Billing_Section {
     private JTextField TotalAmt;
     private JTextArea Details;
     private JTextField Vehicle_ID;
+    private JPanel ParentBill;
 
-    public static int insertBill(int customer_ID, String Details, String Phno,
-                                 int Total) {
+    public static int insertBill(int customer_ID, String Details, Date date, String VehicleID,int Total) {
         // for insert a new candidate
         ResultSet rs = null;
         int candidateId = 0;
@@ -32,7 +34,7 @@ public class Billing_Section {
             // set parameters for statement
             pstmt.setString(1, String.valueOf(customer_ID));
             pstmt.setString(2, Details);
-            pstmt.setString(3, String.valueOf(Phno));
+            pstmt.setDate(3, date);
             pstmt.setString(4, String.valueOf(Total));
 
             int rowAffected = pstmt.executeUpdate();
@@ -59,13 +61,13 @@ public class Billing_Section {
     public static void fetch(int index, String name) {
         String query = null;
         if(index==0) {
-            query="SELECT * FROM Customer_details WHERE customer_ID = "+ Integer.parseInt(name)+";";
+            query="SELECT * FROM Bill_details WHERE customer_ID = "+ Integer.parseInt(name)+";";
         }
         else if(index==1){
-            query="SELECT * FROM Customer_details WHERE name = "+ name+";";
+            query="SELECT * FROM Bill_details WHERE name = "+ name+";";
         }
         else if(index==2){
-            query="SELECT * FROM Customer_details WHERE PhNo = "+ name+";";
+            query="SELECT * FROM Bill_details WHERE PhNo = "+ name+";";
         }
         ResultSet rs;
 
@@ -82,13 +84,23 @@ public class Billing_Section {
     }
     public Billing_Section()
     {
+        add(ParentBill);
+        ParentBill.setVisible(true);
+        setSize(750, 300);
+        setTitle("Billing Details");
         insertValueButton.addActionListener(actionEvent -> {
-            String Date = BillDate.getText();
+            String date = BillDate.getText();
             String Detail= Details.getText();
             int c_id = Integer.parseInt(C_ID.getText());
-
+            String VehicleID=Vehicle_ID.getText();
             int Total = Integer.parseInt(TotalAmt.getText());
-            int id = insertBill(c_id, Detail,Date, Total);
+            Date date1= null;
+            try {
+                date1 = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int id = insertBill(c_id, Detail,date1,VehicleID,Total);
 
             System.out.printf("A new candidate with id %d has been inserted.%n",id);
         });
@@ -101,6 +113,14 @@ public class Billing_Section {
         fetchDataButton.addActionListener(actionEvent -> {
             String fVal = fValue.getText();
             fetch(comboBox1.getSelectedIndex(),fVal);
+        });
+
+        UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
+        backToMainMenuButton.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> {
+                Main_Page Main_Page = new Main_Page();
+                Main_Page.setVisible(true);
+            });
         });
     }
 }
