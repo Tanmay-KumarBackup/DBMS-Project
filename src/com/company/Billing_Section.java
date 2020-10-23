@@ -2,8 +2,6 @@ package com.company;
 
 import javax.swing.*;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class Billing_Section extends JFrame{
     private JPanel CustomerRoot;
@@ -25,8 +23,8 @@ public class Billing_Section extends JFrame{
         ResultSet rs = null;
         int candidateId = 0;
 
-        String sql = "INSERT INTO Bill_details(customer_ID , name , PhNo , Address) "
-                + "VALUES(?,?,?,?) ;";
+        String sql = "INSERT INTO Billing_details(customer_ID , Billing_details , Billing_DATE , Vehicle_ID , Total_Charges) "
+                + "VALUES(?,?,?,?,?) ;";
 
         try (Connection conn = MySQLJDBCUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
@@ -35,7 +33,8 @@ public class Billing_Section extends JFrame{
             pstmt.setString(1, String.valueOf(customer_ID));
             pstmt.setString(2, Details);
             pstmt.setDate(3, date);
-            pstmt.setString(4, String.valueOf(Total));
+            pstmt.setString(4,VehicleID);
+            pstmt.setString(5, String.valueOf(Total));
 
             int rowAffected = pstmt.executeUpdate();
             if (rowAffected == 1) {
@@ -61,13 +60,16 @@ public class Billing_Section extends JFrame{
     public static void fetch(int index, String name) {
         String query = null;
         if(index==0) {
-            query="SELECT * FROM Bill_details WHERE customer_ID = "+ Integer.parseInt(name)+";";
+            query="SELECT Billing_details.customer_ID, Customer_details.name, Billing_Date, billing_details FROM Billing_details JOIN Customer_details ON Billing_details.Customer_ID=Customer_details.Customer_ID" +
+                    " WHERE Billing_details.customer_ID = "+ Integer.parseInt(name)+";";
         }
         else if(index==1){
-            query="SELECT * FROM Bill_details WHERE name = "+ name+";";
+            query="SELECT Billing_details.customer_ID, Customer_details.name, Billing_Date, billing_details FROM Billing_details JOIN Customer_details ON Billing_details.Customer_ID=Customer_details.Customer_ID" +
+                    " WHERE Billing_details.Billing_DATE = "+ name+";";
         }
         else if(index==2){
-            query="SELECT * FROM Bill_details WHERE PhNo = "+ name+";";
+            query="SELECT Billing_details.customer_ID, Customer_details.name, Billing_Date, billing_details  FROM Billing_details JOIN Customer_details ON Billing_details.Customer_ID=Customer_details.Customer_ID" +
+                    " WHERE Billing_details.Vehicle_ID = "+ name+";";
         }
         ResultSet rs;
 
@@ -76,7 +78,8 @@ public class Billing_Section extends JFrame{
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                System.out.print(" Customer Name is: "+rs.getString("name") + "\n Phone Number is: "+ rs.getInt("PhNo")+"\n Address is: "+ rs.getString("Address"));
+                System.out.print(" Customer name is: "+rs.getString("Customer_details.name") +"\n Billing Date is: "
+                        + rs.getDate("Billing_details.Billing_DATE") +"\n Billing details: "+rs.getString("billing_details"));
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -94,12 +97,8 @@ public class Billing_Section extends JFrame{
             int c_id = Integer.parseInt(C_ID.getText());
             String VehicleID=Vehicle_ID.getText();
             int Total = Integer.parseInt(TotalAmt.getText());
-            Date date1= null;
-            try {
-                date1 = (Date) new SimpleDateFormat("dd/MM/yyyy").parse(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date1= Date.valueOf(date);
+
             int id = insertBill(c_id, Detail,date1,VehicleID,Total);
 
             System.out.printf("A new candidate with id %d has been inserted.%n",id);
@@ -108,6 +107,7 @@ public class Billing_Section extends JFrame{
         comboBox1.addItem("Customer ID");
         comboBox1.addItem("Date");
         comboBox1.addItem("Vehicle ID");
+;
 
         fetchDataButton.addActionListener(actionEvent -> {
             String fVal = fValue.getText();
