@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.sql.*;
 
 public class Billing_Section extends JFrame{
-    private JPanel CustomerRoot;
     private JTextField C_ID;
+
     private JTextField BillDate;
     private JTextField fValue;
     private JComboBox<String> comboBox1;
@@ -17,6 +17,7 @@ public class Billing_Section extends JFrame{
     private JTextArea Details;
     private JTextField Vehicle_ID;
     private JPanel ParentBill;
+    private JPanel billRoot;
 
     public static int insertBill(int customer_ID, String Details, Date date, String VehicleID,int Total) {
         // for insert a new candidate

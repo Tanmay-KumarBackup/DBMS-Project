@@ -1,19 +1,11 @@
 package com.company;
-import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
-public class MySQLJDBCUtil {
 
-    /**
-     * Get database connection
-     *
-     * @return a Connection object
-     * @throws SQLException
-     */
-    public static Connection getConnection() throws SQLException {
+public class MySQLJDBCUtil {
+    public static Connection getConnection() {
         Connection conn = null;
 
         try  {
@@ -23,7 +15,7 @@ public class MySQLJDBCUtil {
             String password = "0310";
 
             conn = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return conn;
