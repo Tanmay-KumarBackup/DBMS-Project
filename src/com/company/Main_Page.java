@@ -14,11 +14,11 @@ public class Main_Page extends JFrame{
     private JButton serviceSectionButton;
 
     public Main_Page(){
-        add(MainP);
+        add(Main_Page);
         Main_Page.setVisible(true);
 
         setTitle("Automobile Service Center");
-        setSize(750, 300);
+        setSize(800, 300);
 
         UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
         customerSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
@@ -32,6 +32,17 @@ public class Main_Page extends JFrame{
             Billing_Section Billing_Section = new Billing_Section();
             Billing_Section.setVisible(true);
         }));
+        UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
+        billingSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
 
+            ServiceSection Service_Section = new ServiceSection();
+            Service_Section.setVisible(true);
+        }));
+        UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
+        vehicleSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+
+            VehicleSection Vehicle_section = new VehicleSection();
+            Vehicle_section.setVisible(true);
+        }));
     }
 }
