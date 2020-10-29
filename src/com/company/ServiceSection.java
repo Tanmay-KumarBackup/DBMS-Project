@@ -82,7 +82,7 @@ public class ServiceSection extends JFrame{
     public ServiceSection(){
         add(motherPanel);
         motherPanel.setVisible(true);
-        setSize(750, 300);
+        setSize(800, 300);
         setTitle("Service Details");
 
         comboBox1.addItem("Date");

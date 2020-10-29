@@ -33,10 +33,10 @@ public class Main_Page extends JFrame{
             Billing_Section.setVisible(true);
         }));
         UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
-        billingSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+        serviceSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {
 
-            ServiceSection Service_Section = new ServiceSection();
-            Service_Section.setVisible(true);
+            ServiceSection serviceSection = new ServiceSection();
+            serviceSection.setVisible(true);
         }));
         UIManager.setInstalledLookAndFeels(UIManager.getInstalledLookAndFeels());
         vehicleSectionButton.addActionListener(e -> SwingUtilities.invokeLater(() -> {

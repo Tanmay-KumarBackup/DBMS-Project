@@ -112,7 +112,15 @@ public class VehicleSection extends JFrame{
         fetchDataButton.addActionListener(e -> {
             fetch(comboBox1.getSelectedIndex(), fValue.getText());
         });
+        backToMainMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    Main_Page Main_Page = new Main_Page();
+                    Main_Page.setVisible(true);
+                });
+            }
+        });
     }
-
 
 }
